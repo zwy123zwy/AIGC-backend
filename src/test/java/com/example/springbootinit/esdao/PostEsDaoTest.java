@@ -2,7 +2,6 @@ package com.example.springbootinit.esdao;
 
 import com.example.springbootinit.model.dto.post.PostEsDTO;
 import com.example.springbootinit.model.dto.post.PostQueryRequest;
-import com.example.springbootinit.model.entity.Post;
 import com.example.springbootinit.service.PostService;
 import java.util.Arrays;
 import java.util.Date;
@@ -17,9 +16,6 @@ import org.springframework.data.domain.Sort;
 
 /**
  * 帖子 ES 操作测试
- *
- * @author <a href="https://github.com/liyupi">程序员鱼皮</a>
- * @from <a href="https://yupi.icu">编程导航知识星球</a>
  */
 @SpringBootTest
 public class PostEsDaoTest {
