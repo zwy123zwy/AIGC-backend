@@ -2,10 +2,10 @@
 
 
 -- 创建库
-create database if not exists my_db;
+create database if not exists bi;
 
 -- 切换库
-use my_db;
+use bi;
 
 create table if not exists user
 (
