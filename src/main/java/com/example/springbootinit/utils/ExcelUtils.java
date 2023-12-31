@@ -6,8 +6,11 @@ import com.alibaba.excel.support.ExcelTypeEnum;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.util.ResourceUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -51,18 +54,28 @@ public class ExcelUtils {
         StringBuilder stringBuilder = new StringBuilder();
         // 读取表头
         LinkedHashMap<Integer, String> headerMap = (LinkedHashMap) list.get(0);
+        //System.out.println(headerMap.toString() + " 表头");
         List<String> headerList = headerMap.values().stream().filter(ObjectUtils::isNotEmpty).collect(Collectors.toList());
+        //System.out.println(headerList.toString()+"headerlist");
         stringBuilder.append(StringUtils.join(headerList, ",")).append("\n");
+        //System.out.println(stringBuilder.toString()+"循环之前");
         // 读取数据,压缩数据
         for (int i = 1; i < list.size(); i++) {
             LinkedHashMap<Integer, String> dataMap = (LinkedHashMap) list.get(i);
             List<String> dataList = dataMap.values().stream().filter(ObjectUtils::isNotEmpty).collect(Collectors.toList());
             stringBuilder.append(StringUtils.join(dataList, ",")).append("\n");
         }
+        //System.out.println(stringBuilder.toString()+"循环之前");
         return stringBuilder.toString();
     }
 
     public static void main(String[] args) {
-        excelToCsv(null);
+        File file = null;
+        try {
+            file = ResourceUtils.getFile("classpath:01.xlsx");
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        excelToCsv((MultipartFile) file);
     }
 }

@@ -118,10 +118,11 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         Object userObj = request.getSession().getAttribute(UserConstant.USER_LOGIN_STATE);
         User currentUser = (User) userObj;
         if (currentUser == null || currentUser.getId() == null) {
-            System.out.println(currentUser.toString());
+            System.out.println("登陆用户信息展示"+currentUser.toString());
             throw new BusinessException(ErrorCode.NOT_LOGIN_ERROR);
         }
         // 从数据库查询（追求性能的话可以注释，直接走缓存）
+        //System.out.println("登陆用户信息展示"+currentUser.toString());
         long userId = currentUser.getId();
         currentUser = this.getById(userId);
         if (currentUser == null) {

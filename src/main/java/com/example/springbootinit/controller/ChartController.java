@@ -271,8 +271,11 @@ public class ChartController {
     @PostMapping("/gen")
     public BaseResponse<BiResponse> genChartByAi(@RequestPart("file") MultipartFile multipartFile,
                                                  GenChartByAiRequest genChartByAiRequest, HttpServletRequest request) {
+        //图标名称
         String name = genChartByAiRequest.getName();
+        //图标目标
         String goal = genChartByAiRequest.getGoal();
+        //图标类型
         String chartType = genChartByAiRequest.getChartType();
         // 校验
         ThrowUtils.throwIf(StringUtils.isBlank(goal), ErrorCode.PARAMS_ERROR, "目标为空");
