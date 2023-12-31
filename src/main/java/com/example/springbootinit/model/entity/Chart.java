@@ -14,7 +14,7 @@ import java.util.Date;
 @Data
 public class Chart implements Serializable {
     /**
-     * id
+     * 图标id
      */
     @TableId(type = IdType.ASSIGN_ID)
     private Long id;
@@ -60,7 +60,7 @@ public class Chart implements Serializable {
     private String execMessage;
 
     /**
-     * 创建用户 id
+     * 使用接口的用户 id
      */
     private Long userId;
 
