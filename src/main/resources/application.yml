@@ -24,10 +24,11 @@ spring:
     username: root
     password: 123456
   # Redis 配置
+
 #使用的是本地电脑的redis
   redis:
     database: 1
-    host: 192.168.163.129
+    host: 192.168.3.25
     port: 6379
     timeout: 5000
 
