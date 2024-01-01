@@ -56,7 +56,8 @@ public class BiMessageConsumer {
             return;
         }
         // 调用 AI
-        String result = aiManager.doChat(CommonConstant.BI_MODEL_ID, buildUserInput(chart));
+//        String result = aiManager.doChat(CommonConstant.BI_MODEL_ID, buildUserInput(chart));
+        String result = aiManager.doChat1(buildUserInput(chart));
         String[] splits = result.split("【【【【【");
         if (splits.length < 3) {
             channel.basicNack(deliveryTag, false, false);

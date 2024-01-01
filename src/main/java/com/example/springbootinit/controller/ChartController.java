@@ -26,6 +26,7 @@ import com.example.springbootinit.bizmq.BiMessageProducer;
 import com.example.springbootinit.model.dto.chart.*;
 
 import com.example.springbootinit.utils.ExcelUtils;
+import io.github.briqt.spark4j.SparkClient;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -58,6 +59,7 @@ public class ChartController {
 
     @Resource
     private AiManager aiManager;
+
     @Resource
     private RedisLimiterManager redisLimiterManager;
 //智能异步分析使用
@@ -330,13 +332,17 @@ public class ChartController {
         userInput.append(csvData).append("\n");
 
 
-        String result = aiManager.doChat(biModelId, userInput.toString());
-        String[] splits = result.split("【【【【【");
-        if (splits.length < 3) {
-            throw new BusinessException(ErrorCode.SYSTEM_ERROR, "AI 生成错误");
-        }
+        String result = aiManager.doChat1(userInput.toString());
+        System.out.println(result+"回复");
+        String[] splits = result.split("【【【【|】】】】");
+
+//        if (splits.length < 3) {
+//            throw new BusinessException(ErrorCode.SYSTEM_ERROR, "AI 生成错误");
+//        }
         String genChart = splits[1].trim();
+        System.out.println("code "+genChart+"\n");
         String genResult = splits[2].trim();
+        System.out.println(genChart);
         // 插入到数据库
         Chart chart = new Chart();
         chart.setName(name);
@@ -346,6 +352,7 @@ public class ChartController {
         chart.setGenChart(genChart);
         chart.setGenResult(genResult);
         chart.setUserId(loginUser.getId());
+        chart.setStatus("succeed");
         boolean saveResult = chartService.save(chart);
         ThrowUtils.throwIf(!saveResult, ErrorCode.SYSTEM_ERROR, "图表保存失败");
         BiResponse biResponse = new BiResponse();
@@ -445,12 +452,13 @@ public class ChartController {
                 return;
             }
             // 调用 AI
-            String result = aiManager.doChat(biModelId, userInput.toString());
-            String[] splits = result.split("【【【【【");
-            if (splits.length < 3) {
-                handleChartUpdateError(chart.getId(), "AI 生成错误");
-                return;
-            }
+            //String result = aiManager.doChat(biModelId, userInput.toString());
+            String result = aiManager.doChat1( userInput.toString());
+            String[] splits = result.split("【【【【|】】】】");
+//            if (splits.length < 3) {
+//                handleChartUpdateError(chart.getId(), "AI 生成错误");
+//                return;
+//            }
             String genChart = splits[1].trim();
             String genResult = splits[2].trim();
             Chart updateChartResult = new Chart();

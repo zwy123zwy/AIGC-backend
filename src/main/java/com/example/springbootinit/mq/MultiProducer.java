@@ -22,7 +22,7 @@ public class MultiProducer {
         while (scanner.hasNext()) {
             String message = scanner.nextLine();
             channel.basicPublish("", TASK_QUEUE_NAME,
-                    MessageProperties.PERSISTENT_TEXT_PLAIN,
+                    MessageProperties.PERSISTENT_TEXT_PLAIN,//持久化
                     message.getBytes("UTF-8"));
             System.out.println(" [x] Sent '" + message + "'");
         }
